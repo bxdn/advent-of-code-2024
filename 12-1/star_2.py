@@ -1,6 +1,25 @@
 from collections import Counter
-with open('input.txt') as infile: lines = infile.readlines()
-l1, l2 = (map(int, l) for l in zip(*[line.split() for line in lines]))
-list_2_counts = Counter()
-for num in l2: list_2_counts[num] += 1
-print(sum(num * list_2_counts[num] for num in l1))
+
+# Get lines of data from file
+lines = open('in.txt').readlines()
+
+# Get each line as a pair of number strings
+pairs = map(str.split, lines)
+
+# Get each column as a collection of number strings
+columns = zip(*pairs)
+
+# Convert the columns to integers
+cast_column = lambda l: map(int, l)
+column1, column2 = map(cast_column, columns)
+
+# Get the number of times each number occurred in column 2
+column_2_counts = Counter(column2)
+
+# Calculate the products of the number in column 1 by how many instances of that number are in column 2
+calculate_product = lambda num: num * column_2_counts[num]
+products = map(calculate_product, column1)
+
+# Print the total of the products
+total = sum(products)
+print(total)
